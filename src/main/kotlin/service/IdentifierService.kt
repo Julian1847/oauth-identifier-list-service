@@ -37,4 +37,15 @@ class IdentifierService(
         )
         return identifierRepository.save(identifier)
     }
+
+    @Transactional
+    fun updateIdentifierStatus(uri: String, identifierUuid: UUID, newStatus: Int) {
+        val listId = uri.substringAfterLast("/").toLong()
+        identifierRepository.updateIdentifierStatus(listId, identifierUuid, newStatus)
+    }
+
+    fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
+        // Ruft den Status des Identifiers aus dem Repository ab
+        return identifierRepository.getIdentifierStatus(listId, identifierUuid)
+    }
 }

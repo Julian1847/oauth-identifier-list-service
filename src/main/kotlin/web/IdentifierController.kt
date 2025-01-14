@@ -2,7 +2,6 @@ package org.example.web
 
 
 import org.example.config.AppConfiguration
-import org.example.service.IdentifierListService
 import org.example.service.IdentifierService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +11,6 @@ import java.util.*
 @RequestMapping("/identifier-list")
 class IdentifierController(
     private val identifierService: IdentifierService,
-    private val identifierListService: IdentifierListService,
     private val config: AppConfiguration
 ) {
 
@@ -33,9 +31,23 @@ class IdentifierController(
         val identifierUuid = updateStatusRequest.identifierUuid
         val newStatus = updateStatusRequest.value
 
-        identifierListService.updateIdentifierStatus(uri, identifierUuid, newStatus)
+        identifierService.updateIdentifierStatus(uri, identifierUuid, newStatus)
 
         return ResponseEntity.noContent().build()
+    }
+
+    @GetMapping("/{list-id}/{identifier}")
+    fun getIdentifierStatus(
+        @PathVariable("list-id") listId: Long,
+        @PathVariable("identifier") identifierUuid: UUID
+    ): ResponseEntity<Map<String, Any>> {
+        val status = identifierService.getIdentifierStatus(listId, identifierUuid)
+
+        return if (status != null) {
+            ResponseEntity.ok(mapOf("status" to status))
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
 }
 
