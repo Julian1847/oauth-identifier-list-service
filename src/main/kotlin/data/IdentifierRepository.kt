@@ -1,6 +1,7 @@
 package org.example.data
 
 import org.example.entity.Identifier
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -35,11 +36,14 @@ class IdentifierRepository(private val jdbcTemplate: JdbcTemplate) {
 
     fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
         val sql = """
-            SELECT status
-            FROM identifiers
-            WHERE list_id = ? AND id = ?
-        """
-
-        return jdbcTemplate.queryForObject(sql, Int::class.java, listId, identifierUuid)
+        SELECT status
+        FROM identifiers
+        WHERE list_id = ? AND id = ?
+    """
+        return try {
+            jdbcTemplate.queryForObject(sql, Int::class.java, listId, identifierUuid)
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
     }
 }

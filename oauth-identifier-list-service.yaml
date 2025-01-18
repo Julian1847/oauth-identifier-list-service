@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: Identifier List API
   version: 1.0.0
+security:
+  - ApiKeyAuth: []
 paths:
   /identifier-list/new-reference:
     post:
@@ -20,6 +22,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reference'
+      parameters:
+        - name: X-Api-Key
+          in: header
+          schema:
+            type: string
   /{list-id}/{identifier}:
     get:
       summary: Get identifier status
@@ -60,8 +67,18 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '204':
           description: Status updated successfully
+      parameters:
+        - name: X-Api-Key
+          in: header
+          schema:
+            type: string
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
   schemas:
     ErrorResponse:
       type: object

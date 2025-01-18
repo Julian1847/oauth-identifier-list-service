@@ -45,7 +45,6 @@ class IdentifierService(
     }
 
     fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
-        // Ruft den Status des Identifiers aus dem Repository ab
         return identifierRepository.getIdentifierStatus(listId, identifierUuid)
     }
 }
