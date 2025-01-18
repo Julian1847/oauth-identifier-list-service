@@ -29,8 +29,8 @@ class IdentifierRepository(private val jdbcTemplate: JdbcTemplate) {
         jdbcTemplate.update(
             "UPDATE identifiers SET status = ?, " +
                     "status_change_count = status_change_count + 1 " +
-                    "WHERE id = ? AND list_id = ?",
-            newStatus, identifierUuid, listId
+                    "WHERE list_id = ? AND id = ?",
+            newStatus, listId, identifierUuid
         )
     }
 

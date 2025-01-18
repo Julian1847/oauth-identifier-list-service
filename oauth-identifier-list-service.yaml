@@ -106,15 +106,15 @@ components:
     UpdateStatusRequest:
       type: object
       required:
+        - id
         - uri
-        - identifierUuid
         - value
       properties:
-        uri:
-          type: string
-        identifierUuid:
+        id:
           type: string
           format: UUID
+        uri:
+          type: string
         value:
           type: integer
           format: int32
