@@ -51,22 +51,13 @@ class IdentifierController(
         }
     }
 
-    @GetMapping("/{list-id}/{identifier}")
-    fun getIdentifierStatus(
-        @PathVariable("list-id") listId: Long,
-        @PathVariable("identifier") identifierUuid: UUID
-    ): ResponseEntity<Map<String, Any>> {
+    @GetMapping("/{list-id}")
+    fun getIdentifierStatusList(@PathVariable("list-id") listId: Int): ResponseEntity<IdentifierListResponse> {
         return try {
-            val status = identifierService.getIdentifierStatus(listId, identifierUuid)
-            if (status != null) {
-                ResponseEntity.ok(mapOf("status" to status))
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(mapOf("error" to "Identifier not found for given listId and UUID"))
-            }
+            val response = identifierService.getIdentifierList(listId)
+            ResponseEntity.ok(response)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(mapOf("error" to "An error occurred: ${e.message}"))
+            throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while fetching data", e)
         }
     }
 
@@ -91,4 +82,12 @@ data class UpdateStatusRequest(
     val id: UUID,
     val uri: String,
     val value: Int
+)
+
+data class IdentifierListResponse(
+    val identifierList: Map<String, IdentifierStatus>
+)
+
+data class IdentifierStatus(
+    val status: Int
 )

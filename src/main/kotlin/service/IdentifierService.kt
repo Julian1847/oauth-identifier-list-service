@@ -4,6 +4,8 @@ import org.example.config.AppConfiguration
 import org.example.data.IdentifierListRepository
 import org.example.data.IdentifierRepository
 import org.example.entity.Identifier
+import org.example.web.IdentifierListResponse
+import org.example.web.IdentifierStatus
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -44,7 +46,10 @@ class IdentifierService(
         identifierRepository.updateIdentifierStatus(listId, identifierUuid, newStatus)
     }
 
-    fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
-        return identifierRepository.getIdentifierStatus(listId, identifierUuid)
+    fun getIdentifierList(listId: Int): IdentifierListResponse {
+        val identifierList = identifierListRepository.findByListId(listId)
+        return IdentifierListResponse(
+            identifierList = identifierList.associate { it.id to IdentifierStatus(it.status) }
+        )
     }
 }
