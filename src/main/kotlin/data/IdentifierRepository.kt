@@ -1,7 +1,6 @@
 package org.example.data
 
 import org.example.entity.Identifier
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import java.util.*
