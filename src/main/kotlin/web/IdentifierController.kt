@@ -2,6 +2,7 @@ package org.example.web
 
 
 import org.example.config.AppConfiguration
+import org.example.service.IdentifierListService
 import org.example.service.IdentifierService
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.UNAUTHORIZED
@@ -15,6 +16,7 @@ import java.util.*
 @RequestMapping("/identifier-list")
 class IdentifierController(
     private val identifierService: IdentifierService,
+    private val identifierListService: IdentifierListService,
     private val config: AppConfiguration
 ) {
 
@@ -54,7 +56,7 @@ class IdentifierController(
     @GetMapping("/{list-id}")
     fun getIdentifierStatusList(@PathVariable("list-id") listId: Int): ResponseEntity<IdentifierListResponse> {
         return try {
-            val response = identifierService.getIdentifierList(listId)
+            val response = identifierListService.getIdentifierList(listId)
             ResponseEntity.ok(response)
         } catch (e: Exception) {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while fetching data", e)

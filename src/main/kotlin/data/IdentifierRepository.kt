@@ -33,17 +33,4 @@ class IdentifierRepository(private val jdbcTemplate: JdbcTemplate) {
             newStatus, listId, identifierUuid
         )
     }
-
-    fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
-        val sql = """
-        SELECT status
-        FROM identifiers
-        WHERE list_id = ? AND id = ?
-    """
-        return try {
-            jdbcTemplate.queryForObject(sql, Int::class.java, listId, identifierUuid)
-        } catch (e: EmptyResultDataAccessException) {
-            null
-        }
-    }
 }

@@ -4,8 +4,6 @@ import org.example.config.AppConfiguration
 import org.example.data.IdentifierListRepository
 import org.example.data.IdentifierRepository
 import org.example.entity.Identifier
-import org.example.web.IdentifierListResponse
-import org.example.web.IdentifierStatus
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,7 +18,6 @@ class IdentifierService(
 
     @Transactional
     fun createNewIdentifier(): Identifier {
-
         val latestListId = identifierListRepository.findLatestListId()
         val listIdToUse = if (latestListId != null &&
             identifierRepository.countByListId(latestListId) < config.listSize
@@ -44,12 +41,5 @@ class IdentifierService(
     fun updateIdentifierStatus(uri: String, identifierUuid: UUID, newStatus: Int) {
         val listId = uri.substringAfterLast("/").toLong()
         identifierRepository.updateIdentifierStatus(listId, identifierUuid, newStatus)
-    }
-
-    fun getIdentifierList(listId: Int): IdentifierListResponse {
-        val identifierList = identifierListRepository.findByListId(listId)
-        return IdentifierListResponse(
-            identifierList = identifierList.associate { it.id to IdentifierStatus(it.status) }
-        )
     }
 }
