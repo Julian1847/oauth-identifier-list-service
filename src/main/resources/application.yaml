@@ -1,7 +1,5 @@
 app:
   public-url: http://localhost:8085
-  storage-directory: identifier-lists
-  issuer: https://example.com
   list-size: 128
   api-key: 366A9069-2965-4667-9AD2-5C51D71046D9
 

@@ -42,7 +42,7 @@ class IdentifierController(
                      @RequestHeader(required = false, value = "X-Api-Key") xApiKey: String?): ResponseEntity<Void> {
         // Extrahiere die Daten aus der Anfrage
         val uri = updateStatusRequest.uri
-        val identifierUuid = updateStatusRequest.id
+        val identifierUuid = updateStatusRequest.identifierUuid
         val newStatus = updateStatusRequest.value
         authenticate(config, xApiKey)
         try {
@@ -81,7 +81,7 @@ data class ReferenceResponse(
 )
 
 data class UpdateStatusRequest(
-    val id: UUID,
+    val identifierUuid: UUID,
     val uri: String,
     val value: Int
 )

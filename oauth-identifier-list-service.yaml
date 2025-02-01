@@ -110,11 +110,11 @@ components:
     UpdateStatusRequest:
       type: object
       required:
-        - id
+        - identifierUuid
         - uri
         - value
       properties:
-        id:
+        identifierUuid:
           type: string
           format: UUID
         uri:
