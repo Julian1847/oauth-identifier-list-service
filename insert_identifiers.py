@@ -2,6 +2,8 @@ import psycopg2
 import uuid
 from psycopg2.extras import execute_values
 
+import make_csv
+
 db_params = {
     "dbname": "identifier_service",
     "user": "postgres",
@@ -48,3 +50,4 @@ def insert_data():
 
 if __name__ == "__main__":
     insert_data()
+    make_csv.create_csv()
