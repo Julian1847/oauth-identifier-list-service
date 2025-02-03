@@ -1,8 +1,9 @@
-app:
-  public-url: http://localhost:8085
-  list-size: 128
-  api-key: 366A9069-2965-4667-9AD2-5C51D71046D9
-
+server:
+  port: 8085
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 1024  # Compress responses larger than 1KB
 
 spring:
   datasource:
@@ -15,27 +16,15 @@ spring:
       ddl-auto: none
   sql:
     init:
-      mode: never
+      mode: always
   liquibase:
     enabled: false
 
-server:
-  port: 8085
+app:
+  public-url: http://localhost:8085
+  list-size: 100000
+  api-key: 366A9069-2965-4667-9AD2-5C51D71046D9
+
 logging:
   level:
     org.springframework: INFO
-
-#logbook:
-#  predicate:
-#    include:
-#      - path: /**
-#        methods:
-#          - GET
-#          - POST
-#  filter:
-#    enabled: true
-#  format:
-#    style: http
-#  strategy: body-only-if-status-at-least
-#  minimum-status: 400
-#

@@ -28,7 +28,7 @@ class IdentifierListRepository(private val jdbcTemplate: JdbcTemplate) {
 
 
     fun findByListId(listId: Int): List<Identifier> {
-        val sql = "SELECT id, status FROM identifiers WHERE list_id = ?"
+        val sql = "SELECT id, status FROM identifiers WHERE list_id = ? AND status = 1"
         return jdbcTemplate.query(sql, IdentifierRowMapper(), listId)
     }
 }
