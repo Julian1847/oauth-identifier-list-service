@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: Identifier List API
   version: 1.0.0
+security:
+  - ApiKeyAuth: []
 paths:
   /identifier-list/new-reference:
     post:
@@ -20,9 +22,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reference'
-  /{list-id}/{identifier}:
+      parameters:
+        - name: X-Api-Key
+          in: header
+          schema:
+            type: string
+  /{list-id}:
     get:
-      summary: Get identifier status
+      summary: Get identifier status list
       parameters:
         - in: path
           name: list-id
@@ -30,16 +37,20 @@ paths:
           description: The id of the identifier list
           schema:
             type: integer
-        - in: path
-          name: identifier
-          required: true
-          description: The identifier uuid
-          schema:
-            type: string
-            format: UUID
       responses:
+        default:
+          description: error occured.
+          content:
+            "application/problem+json":
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         '200':
           description: Identifier status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentifierList'
+
   /identifier-list/update:
     patch:
       summary: Update the status of an identifier
@@ -60,8 +71,18 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '204':
           description: Status updated successfully
+      parameters:
+        - name: X-Api-Key
+          in: header
+          schema:
+            type: string
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
   schemas:
     ErrorResponse:
       type: object
@@ -89,17 +110,29 @@ components:
     UpdateStatusRequest:
       type: object
       required:
-        - uri
         - identifierUuid
+        - uri
         - value
       properties:
-        uri:
-          type: string
         identifierUuid:
           type: string
           format: UUID
+        uri:
+          type: string
         value:
           type: integer
           format: int32
           minimum: 0
           maximum: 1
+    IdentifierList:
+      type: object
+      properties:
+        identifier_list:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              status:
+                type: integer
+                format: int32
+                description: Status of the identifier

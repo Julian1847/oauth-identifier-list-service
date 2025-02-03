@@ -9,3 +9,5 @@ CREATE TABLE identifiers (
     status_change_count INT NOT NULL DEFAULT 0,
     FOREIGN KEY (list_id) REFERENCES identifier_lists (id) ON DELETE CASCADE
 );
+
+CREATE INDEX idx_identifiers_list_id ON identifiers (list_id);

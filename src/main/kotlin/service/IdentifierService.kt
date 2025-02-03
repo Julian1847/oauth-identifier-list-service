@@ -18,7 +18,6 @@ class IdentifierService(
 
     @Transactional
     fun createNewIdentifier(): Identifier {
-
         val latestListId = identifierListRepository.findLatestListId()
         val listIdToUse = if (latestListId != null &&
             identifierRepository.countByListId(latestListId) < config.listSize
@@ -42,10 +41,5 @@ class IdentifierService(
     fun updateIdentifierStatus(uri: String, identifierUuid: UUID, newStatus: Int) {
         val listId = uri.substringAfterLast("/").toLong()
         identifierRepository.updateIdentifierStatus(listId, identifierUuid, newStatus)
-    }
-
-    fun getIdentifierStatus(listId: Long, identifierUuid: UUID): Int? {
-        // Ruft den Status des Identifiers aus dem Repository ab
-        return identifierRepository.getIdentifierStatus(listId, identifierUuid)
     }
 }
