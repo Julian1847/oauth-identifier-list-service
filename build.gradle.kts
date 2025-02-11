@@ -23,6 +23,10 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     implementation("org.zalando:logbook-spring-boot-starter:3.10.0")
 
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.mockk:mockk:1.13.4")
+
     runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
 tasks.test {
