@@ -46,7 +46,7 @@ python insert_identifiers.py
 If necessary, modify the script to adjust the volume of inserted data.
 
 ## Project Background
-This project aims to implement the [OAuth Identifier List](https://c2bo.github.io/draft-bormann-identifier-list/draft-bormann-identifier-list.html)
+This project aims to implement a basic version of the [OAuth Identifier List](https://c2bo.github.io/draft-bormann-identifier-list/draft-bormann-identifier-list.html)
 to enhance the management of digital credentials.
 It was developed as part of a bachelor's thesis to analyze and measure the performance of revocation mechanisms for digital credentials.
 The performance was measured with JMeter.
